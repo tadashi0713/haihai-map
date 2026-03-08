@@ -13,7 +13,7 @@ const Map = dynamic(() => import('@/components/Map'), {
   ssr: false,
   loading: () => (
     <div className="h-full w-full flex items-center justify-center bg-gray-100">
-      <p>地図を読み込み中...</p>
+      <p className="text-gray-600">地図を読み込み中...</p>
     </div>
   ),
 });
@@ -81,26 +81,31 @@ export default function Home() {
     : null;
 
   return (
-    <div className="h-screen flex flex-col">
+    <div className="h-screen flex flex-col bg-gray-50">
       {/* Header */}
-      <header className="bg-blue-600 text-white py-4 px-6 shadow-md">
-        <h1 className="text-2xl font-bold">ハイハイマップ</h1>
-        <p className="text-sm text-blue-100">赤ちゃんが遊べる場所を探そう</p>
+      <header className="bg-white border-b border-gray-200 py-4 px-6 shadow-sm">
+        <div className="flex items-center gap-3">
+          <span className="text-3xl">👶</span>
+          <div>
+            <h1 className="text-2xl font-bold text-gray-800">ハイハイマップ</h1>
+            <p className="text-sm text-gray-600">赤ちゃんが遊べる場所を探そう</p>
+          </div>
+        </div>
       </header>
 
       {/* Main Content */}
       <div className="flex-1 flex flex-col lg:flex-row overflow-hidden">
         {/* Sidebar */}
-        <div className="w-full lg:w-96 bg-gray-50 overflow-y-auto border-r">
+        <div className="w-full lg:w-96 bg-white overflow-y-auto border-r border-gray-200">
           <div className="p-4 space-y-4">
             {/* Search Bar */}
             <div>
               <input
                 type="text"
-                placeholder="場所を検索..."
+                placeholder="🔍 場所を検索..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
               />
             </div>
 
@@ -114,7 +119,7 @@ export default function Home() {
             />
 
             {/* Results Count */}
-            <div className="text-sm text-gray-600">
+            <div className="text-sm text-gray-600 px-2">
               {filteredSpaces.length}件の施設が見つかりました
             </div>
 
@@ -130,7 +135,7 @@ export default function Home() {
                   {selectedSpaceId === space.id && (
                     <button
                       onClick={() => setDetailSpaceId(space.id)}
-                      className="mt-2 w-full bg-blue-600 text-white py-2 rounded-lg font-semibold hover:bg-blue-700 transition-colors"
+                      className="mt-2 w-full bg-teal-600 text-white py-2.5 rounded-lg font-semibold hover:bg-teal-700 transition-colors"
                     >
                       詳細を見る
                     </button>
@@ -138,11 +143,11 @@ export default function Home() {
                 </div>
               ))}
               {filteredSpaces.length === 0 && (
-                <div className="text-center py-8 text-gray-500">
-                  <p>条件に合う施設が見つかりませんでした</p>
+                <div className="text-center py-8 bg-gray-50 rounded-lg p-6">
+                  <p className="text-gray-600 mb-4">条件に合う施設が見つかりませんでした</p>
                   <button
                     onClick={handleResetFilters}
-                    className="mt-4 text-blue-600 hover:text-blue-800 font-semibold"
+                    className="text-teal-600 hover:text-teal-800 font-semibold"
                   >
                     フィルターをリセット
                   </button>

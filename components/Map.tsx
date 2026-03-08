@@ -62,7 +62,7 @@ export default function Map({
   if (!isMounted) {
     return (
       <div className="h-full w-full flex items-center justify-center bg-gray-100">
-        <p>地図を読み込み中...</p>
+        <p className="text-gray-600">地図を読み込み中...</p>
       </div>
     );
   }
