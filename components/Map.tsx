@@ -33,6 +33,7 @@ interface MapProps {
   center?: [number, number];
   zoom?: number;
   onMarkerClick?: (space: Space) => void;
+  onDetailClick?: (space: Space) => void;
   selectedSpaceId?: string | null;
 }
 
@@ -51,6 +52,7 @@ export default function Map({
   center = [35.6762, 139.6503], // Tokyo default
   zoom = 12,
   onMarkerClick,
+  onDetailClick,
   selectedSpaceId
 }: MapProps) {
   const [isMounted, setIsMounted] = useState(false);
@@ -77,8 +79,8 @@ export default function Map({
       >
         <MapUpdater center={center} zoom={zoom} />
         <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
+          url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
         />
         {spaces.map((space) => {
           const isSelected = selectedSpaceId === space.id;
@@ -109,16 +111,29 @@ export default function Map({
                 },
               }}
             >
-              <Popup>
-                <div className="min-w-[200px]">
-                  <h3 className="font-bold text-base mb-1">{space.name}</h3>
-                  <p className="text-sm text-gray-600 mb-2">{space.address}</p>
-                  {space.rating && (
-                    <div className="flex items-center gap-1 text-sm">
-                      <span className="text-yellow-500">★</span>
-                      <span>{space.rating}</span>
-                    </div>
-                  )}
+              <Popup
+                className="custom-popup"
+              >
+                <div className="min-w-[240px] p-1">
+                  <h3 className="font-bold text-lg mb-2 text-gray-800">{space.name}</h3>
+                  <p className="text-sm text-gray-600 mb-3 leading-relaxed">{space.address}</p>
+                  <div className="flex items-center justify-between">
+                    {space.rating && (
+                      <div className="flex items-center gap-1.5 bg-amber-50 px-3 py-1.5 rounded-full">
+                        <span className="text-amber-500 text-lg">★</span>
+                        <span className="font-semibold text-amber-700">{space.rating}</span>
+                      </div>
+                    )}
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        onDetailClick?.(space);
+                      }}
+                      className="text-xs text-teal-600 hover:text-teal-700 font-semibold hover:underline"
+                    >
+                      詳細を見る →
+                    </button>
+                  </div>
                 </div>
               </Popup>
             </Marker>

@@ -164,6 +164,7 @@ export default function Home() {
             center={mapCenter}
             zoom={mapZoom}
             onMarkerClick={handleMarkerClick}
+            onDetailClick={(space) => setDetailSpaceId(space.id)}
             selectedSpaceId={selectedSpaceId}
           />
         </div>
